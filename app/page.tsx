@@ -12,6 +12,7 @@ export default async function Home() {
       </h1>
 
       <div className="grid md:grid-cols-3 gap-6">
+        import Link from "next/link";
         {products?.map((product) => (
           <div
             key={product.id}
