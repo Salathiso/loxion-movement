@@ -1,5 +1,6 @@
 import { supabase } from "@/lib/supabase";
 import { notFound } from "next/navigation";
+import AddToCartButton from "@/components/AddToCartButton";
 
 export default async function ProductPage({
   params,
@@ -37,6 +38,7 @@ export default async function ProductPage({
       <p className="mt-6 text-2xl font-bold">
         R{product.price}
       </p>
+      <AddToCartButton />
     </main>
   );
 }
