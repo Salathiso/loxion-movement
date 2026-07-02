@@ -1,42 +1,11 @@
 "use client";
 
-import ProductForm, {
-  ProductFormData,
-} from "@/components/ProductForm";
-import { uploadProductImage } from "@/lib/uploadProduct";
-import { supabase } from "@/lib/supabase";
+import ProductForm from "@/components/ProductForm";
+import { createProduct } from "@/lib/products/create";
 
 export default function AddProductPage() {
-  async function handleAddProduct(
-    data: ProductFormData
-  ) {
-    const imageUrl = await uploadProductImage(
-      data.image!
-    );
-
-    const slug = data.name
-      .toLowerCase()
-      .trim()
-      .replace(/\s+/g, "-");
-
-    const { error } = await supabase
-      .from("products")
-      .insert({
-        name: data.name,
-        slug,
-        description: data.description,
-        price: data.price,
-        image_url: imageUrl,
-        category: "T-Shirts",
-        stock: 10,
-        featured: false,
-      });
-
-    if (error) {
-      console.error(error);
-      throw error;
-    }
-
+  async function handleAddProduct(data: Parameters<typeof createProduct>[0]) {
+    await createProduct(data);
     alert("✅ Product Added");
   }
 
