@@ -51,7 +51,7 @@ export default function AddProductPage() {
       setDescription("");
       setFile(null);
     } catch (error) {
-      console.error("FULL ERROR:"error);
+      console.error("FULL ERROR:", error);
       alert(JSON.stringify(error, null , 2));
     } finally {
       setLoading(false);
