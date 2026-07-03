@@ -1,16 +1,15 @@
-import { getCurrentUser } from "@/lib/auth";
-import { redirect } from "next/navigation";
+import AdminNav from "@/components/AdminNav";
+import AdminGuard from "@/components/AdminGuard";
 
-export default async function AdminLayout({
+export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const user = await getCurrentUser();
-
-  if (!user) {
-    redirect("/admin/login");
-  }
-
-  return <>{children}</>;
+  return (
+    <AdminGuard>
+      <AdminNav />
+      {children}
+    </AdminGuard>
+  );
 }
