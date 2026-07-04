@@ -12,22 +12,28 @@ export type ProductFormData = {
 type Props = {
   onSubmit: (data: ProductFormData) => Promise<void>;
   submitText?: string;
+  initialData?: {
+    name: string;
+    price: number;
+    description: string;
+  };
 };
 
 export default function ProductForm({
   onSubmit,
   submitText = "Save Product",
+  initialData,
 }: Props) {
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
-  const [description, setDescription] = useState("");
+  const [name, setName] = useState(initialData?.name ?? "");
+  const [price, setPrice] = useState(initialData?.price.toString() ?? "");
+  const [description, setDescription] = useState(initialData?.description ?? "");
   const [image, setImage] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    if (!image) {
+    if (!image && !initialData) {
       alert("Please choose an image.");
       return;
     }
