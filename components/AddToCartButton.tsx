@@ -1,8 +1,29 @@
 "use client";
 
-export default function AddToCartButton() {
+import { addToCart } from "@/lib/cart";
+
+type Props = {
+  id: string;
+  name: string;
+  price: number;
+  image_url: string;
+};
+
+export default function AddToCartButton({
+  id,
+  name,
+  price,
+  image_url,
+}: Props) {
   function handleAddToCart() {
-    localStorage.setItem("cart-test", "Classic Kasi Tee");
+    addToCart({
+      id,
+      name,
+      price,
+      image_url,
+      quantity: 1,
+    });
+
     alert("Added to cart");
   }
 

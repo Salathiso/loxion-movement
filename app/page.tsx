@@ -18,7 +18,7 @@ async function fetchProducts(): Promise<Product[]> {
 function ProductCard({ product }: { product: Product }) {
   return (
     <Link
-      href={`/products/${product.slug}`}
+      href={`/product/${product.slug}`}
       className="border border-zinc-800 p-6 rounded-xl block hover:border-white transition cursor-pointer"
     >
       <img

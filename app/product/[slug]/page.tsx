@@ -38,7 +38,12 @@ export default async function ProductPage({
       <p className="mt-6 text-2xl font-bold">
         R{product.price}
       </p>
-      <AddToCartButton />
+      <AddToCartButton 
+        id={product.id}
+        name={product.name}
+        price={product.price}
+        image_url={product.image_url}
+      />
     </main>
   );
 }
