@@ -1,13 +1,23 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { CartItem, getCart } from "@/lib/cart";
+import { 
+    CartItem, 
+    getCart,
+    decreaseQuantity,
+    increaseQuantity,
+    removeFromCart
+} from "@/lib/cart";
 
 export default function CartItems() {
   const [items, setItems] = useState<CartItem[]>([]);
 
-  useEffect(() => {
+  function refreshCart() {
     setItems(getCart());
+  }
+
+  useEffect(() => {
+    refreshCart();
   }, []);
 
   if (items.length === 0) {
@@ -43,11 +53,50 @@ export default function CartItems() {
 
             <p>R{item.price}</p>
 
-            <p>Qty: {item.quantity}</p>
+            <div className="flex items--center gap-3 mt-3">
+                <button
+                    onClick={() => {
+                       decreaseQuantity(item.id);
+                          refreshCart();
+                    }}
+                    className="border px-3 py-1 rounded"
+                >
+                    -
+                </button> 
 
-            <p className="font-semibold">
-              R{item.price * item.quantity}
+                <span className="font-bold">
+                    {item.quantity}
+                </span>
+
+                <button
+                    onClick={() => {
+                        increaseQuantity(item.id);
+                        refreshCart();
+                    }}
+                    className="border px-3 py-1 rounded"
+                >
+                    +
+                </button>
+
+                <button
+                    onClick={() => {
+                        removeFromCart(item.id);
+                        refreshCart();
+                    }}
+                    className="text-red-500 ml-4"
+                >
+                    Remove
+                </button>
+            </div>
+
+            <p className="font-semibold mt-3">
+                R{item.price * item.quantity}
             </p>
+
+    
+
+
+            
           </div>
         </div>
       ))}

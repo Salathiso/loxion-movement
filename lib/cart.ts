@@ -33,3 +33,38 @@ export function addToCart(item: CartItem) {
 
   saveCart(cart);
 }
+
+export function increaseQuantity(id: string) {
+  const cart = getCart();
+
+  const item = cart.find((p) => p.id === id);
+
+  if (item) {
+    item.quantity += 1;
+  }
+
+  saveCart(cart);
+}
+
+export function decreaseQuantity(id: string) {
+  const cart = getCart();
+
+  const item = cart.find((p) => p.id === id);
+
+  if (!item) return;
+
+  item.quantity -= 1;
+
+  if (item.quantity <= 0) {
+    saveCart(cart.filter((p) => p.id !== id));
+    return;
+  }
+
+  saveCart(cart);
+}
+
+export function removeFromCart(id: string) {
+  const cart = getCart();
+
+  saveCart(cart.filter((p) => p.id !== id));
+}
