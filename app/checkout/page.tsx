@@ -1,0 +1,96 @@
+"use client";
+
+import { useState } from "react";
+import CheckoutSummary from "@/components/CheckoutSummary";
+import { createOrder } from "@/lib/orders";
+
+export default function CheckoutPage() {
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+
+  async function handleContinue(
+    e: React.FormEvent
+  ) {
+    e.preventDefault();
+
+    try {
+      const order = await createOrder({
+        customer_name: fullName,
+        email,
+        phone,
+        address,
+      });
+
+      alert(
+        `Order ${order.id} created successfully!`
+      );
+
+      window.location.href = "/";
+    } catch (error) {
+      console.error(error);
+      alert("Failed to create order.");
+    }
+  }
+
+  return (
+    <main className="min-h-screen max-w-5xl mx-auto p-10">
+      <h1 className="text-4xl font-bold mb-8">
+        Checkout
+      </h1>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+        <form
+          onSubmit={handleContinue}
+          className="space-y-5"
+        >
+          <input
+            type="text"
+            placeholder="Full Name"
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
+            className="w-full border rounded p-3"
+            required
+          />
+
+          <input
+            type="email"
+            placeholder="Email Address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full border rounded p-3"
+            required
+          />
+
+          <input
+            type="tel"
+            placeholder="Phone Number"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            className="w-full border rounded p-3"
+            required
+          />
+
+          <textarea
+            placeholder="Delivery Address"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            className="w-full border rounded p-3"
+            rows={5}
+            required
+          />
+
+          <button
+            type="submit"
+            className="bg-black text-white px-6 py-3 rounded-lg hover:bg-zinc-800 transition"
+          >
+            Continue
+          </button>
+        </form>
+
+        <CheckoutSummary />
+      </div>
+    </main>
+  );
+}
