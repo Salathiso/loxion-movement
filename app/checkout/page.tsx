@@ -27,7 +27,7 @@ export default function CheckoutPage() {
         `Order ${order.id} created successfully!`
       );
 
-      window.location.href = "/";
+      window.location.href = `/order-success`;
     } catch (error) {
       console.error(error);
       alert("Failed to create order.");
