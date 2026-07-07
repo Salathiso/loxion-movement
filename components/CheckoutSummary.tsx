@@ -1,9 +1,14 @@
 "use client";
 
-import { getCart } from "@/lib/cart";
+import { useEffect, useState } from "react";
+import { CartItem, getCart } from "@/lib/cart";
 
 export default function CheckoutSummary() {
-  const items = getCart();
+  const [items, setItems] = useState<CartItem[]>([]);
+
+  useEffect(() => {
+    setItems(getCart());
+  }, []);
 
   const total = items.reduce(
     (sum, item) => sum + item.price * item.quantity,

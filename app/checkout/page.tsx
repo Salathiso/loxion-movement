@@ -3,17 +3,22 @@
 import { useState } from "react";
 import CheckoutSummary from "@/components/CheckoutSummary";
 import { createOrder } from "@/lib/orders";
+import { clearCart } from "@/lib/cart";
 
 export default function CheckoutPage() {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
+  const [ loading, setLoading] = useState(false);
 
   async function handleContinue(
     e: React.FormEvent
   ) {
     e.preventDefault();
+    if (loading) return;
+
+    setLoading(true);
 
     try {
       const order = await createOrder({
@@ -23,13 +28,13 @@ export default function CheckoutPage() {
         address,
       });
 
-      alert(
-        `Order ${order.id} created successfully!`
-      );
+      clearCart();
 
+    
       window.location.href = `/order-success`;
     } catch (error) {
       console.error(error);
+      setLoading(false);
       alert("Failed to create order.");
     }
   }
@@ -83,9 +88,10 @@ export default function CheckoutPage() {
 
           <button
             type="submit"
-            className="bg-black text-white px-6 py-3 rounded-lg hover:bg-zinc-800 transition"
+            disabled={loading}
+            className="bg-black text-white px-6 py-3 rounded-lg disabled:opacity-50"
           >
-            Continue
+            {loading ? "Creating Order...": "Continue"}
           </button>
         </form>
 

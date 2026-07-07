@@ -24,6 +24,10 @@ export default function AdminNav() {
           Products
         </Link>
 
+        <Link href="/admin/orders">
+          Orders
+        </Link>
+
         <Link href="/admin/add-product">
           Add Product
         </Link>

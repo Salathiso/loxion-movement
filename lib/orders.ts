@@ -1,5 +1,6 @@
 import { supabase } from "@/lib/supabase";
 import { getCart } from "@/lib/cart";
+import { reducestock } from "@/lib/inventory";
 
 type CustomerDetails = {
   customer_name: string;
@@ -27,6 +28,7 @@ export async function createOrder(
     .insert({
       ...customer,
       total,
+      status: "pending",
     })
     .select()
     .single();
@@ -47,6 +49,10 @@ export async function createOrder(
 
   if (itemsError) throw itemsError;
 
+  // Reduce stock for every purchased item
+  for (const item of cart) {
+    await reduceStock(item.id, item.quantity);
+  }
   localStorage.removeItem("loxion-cart");
 
   return order;

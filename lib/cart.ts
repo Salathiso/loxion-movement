@@ -68,3 +68,7 @@ export function removeFromCart(id: string) {
 
   saveCart(cart.filter((p) => p.id !== id));
 }
+
+export function clearCart() {
+  localStorage.removeItem(CART_KEY);
+}
