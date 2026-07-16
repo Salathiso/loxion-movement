@@ -1,6 +1,6 @@
 import { supabase } from "@/lib/supabase";
 import { getCart } from "@/lib/cart";
-import { reducestock } from "@/lib/inventory";
+import { reduceStock } from "@/lib/inventory";
 
 type CustomerDetails = {
   customer_name: string;
